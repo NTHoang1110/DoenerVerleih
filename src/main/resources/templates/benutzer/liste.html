@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="#{benutzer.liste.titel}">Benutzerliste</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/htmx.org@2.0.4"
+        integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div th:replace="~{fragments/kopffuss :: kopf}"></div>
+
+    <h1 th:text="#{benutzer.liste.titel}">Benutzerliste</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th th:text="#{benutzer.liste.spalte.loginname}">Login-Name</th>
+                <th th:text="#{benutzer.liste.spalte.name}">Name</th>
+                <th th:text="#{benutzer.liste.spalte.email}">E-Mail</th>
+                <th th:text="#{benutzer.liste.spalte.rolle}">Rolle</th>
+                <th>Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="b : ${benutzerliste}">
+                <td th:text="${b.loginName}"></td>
+                <td
+                    th:replace="~{benutzer/eingabefeld :: ausgeben(loginName=${b.loginName},feldname=name,wert=${b.name})}">
+                </td>
+                <td
+                    th:replace="~{benutzer/eingabefeld :: ausgeben(loginName=${b.loginName},feldname=email,wert=${b.email})}">
+                </td>
+                <td th:text="${b.rolleAuswahl}"></td>
+                <td>
+                    <a th:href="@{'/benutzer/' + ${b.loginName}}"
+                        th:text="#{benutzer.liste.spalte.bearbeiten}">Bearbeiten</a>
+                    |
+                    <a th:href="@{'/benutzer/' + ${b.loginName} + '/delete'}"
+                        th:text="#{benutzer.liste.spalte.loeschen}">Löschen</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div th:replace="~{fragments/kopffuss :: fuss}"></div>
+
+</body>
+
+</html>

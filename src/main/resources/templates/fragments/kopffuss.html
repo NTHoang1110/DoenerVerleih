@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <div th:fragment="kopf">
+        <nav>
+            <a th:text="#{kopf.titel}">Benutzerliste</a>
+            <a th:href="@{/benutzer}" th:text="#{kopf.benutzer}" sec:authorize="hasRole('ADMIN')">Benutzerliste</a>
+            <a th:href="@{/doener}" th:text="#{kopf.doener}">Döner</a>
+            <a th:href="@{?sprache=de}">DE</a>
+            <a th:href="@{?sprache=en}">EN</a>
+            <a th:href="@{?sprache=nl}">NL</a> |
+            <a th:href="@{/logout}">Logout</a>
+        </nav>
+        <div th:if="${info}" class="fehlermeldung" th:text="${info}"></div>
+    </div>
+
+
+    <div th:fragment="fuss">
+        <footer style="background-color: blue; padding: 10px; margin-top: 20px;">
+            <div sec:authentication="name"></div>
+            <div sec:authentication="authorities"></div>
+        </footer>
+    </div>
+</body>
+
+</html>

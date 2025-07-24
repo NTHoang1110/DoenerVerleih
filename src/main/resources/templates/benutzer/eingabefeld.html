@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <th:block th:fragment="ausgeben(loginName, feldname, wert)">
+        <td>
+            <span th:text="${wert}"
+                th:hx-get="@{/benutzer/{loginName}/hx/feld/{feldname}(loginName=${loginName},feldname=${feldname})}"
+                hx-target="closest td" hx-swap="outerHTML" style="cursor: pointer">
+            </span>
+        </td>
+    </th:block>
+
+    <th:block th:fragment="bearbeiten(loginName, feldname, wert)">
+        <td>
+            <form method="put"
+                th:hx-put="@{/benutzer/{loginName}/hx/feld/{feldname}(loginName=${loginName},feldname=${feldname})}"
+                hx-target="closest td" hx-swap="outerHTML">
+                <input type="text" name="wert" th:value="${wert}" />
+                <div class="fehlermeldung" th:if="${fehler}" th:text="${fehler}"></div>
+                <button type="submit">OK</button>
+            </form>
+        </td>
+    </th:block>
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/style.css" />
+  <title>Benutzer bearbeiten</title>
+</head>
+
+<body>
+  <div th:replace="~{fragments/kopffuss :: kopf}"></div>
+  <h1 th:text="#{benutzer.bearbeiten.titel(${nameInPath})}">
+    Benutzer <span th:text="${nameInPath}">unknown</span> bearbeiten
+  </h1>
+  <form method="POST" th:action="@{/benutzer/{name} (name=${nameInPath})}" th:object="${formular}">
+    <table>
+      <tr th:classappend="${#fields.hasErrors('name')} ? 'fehler'">
+        <td><label for="name" th:text="#{benutzer.name}">Name</label></td>
+        <td>
+          <input type="text" th:field="*{name}" />
+          <div class="fehlermeldung" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </td>
+      </tr>
+      <tr th:classappend="${#fields.hasErrors('email')} ? 'fehler'">
+        <td>
+          <label for="email" th:text="#{benutzer.email}">Digitalpostanschrift</label>
+        </td>
+        <td>
+          <input type="text" th:field="*{email}" />
+          <div class="fehlermeldung" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="vegetarizitaet" th:text="#{benutzer.vegetarizitaet}">Vegetarizität</label>
+        </td>
+        <td>
+          <label>
+            <input th:text="#{benutzer.vegetarizitaet.unvegetarisch}" type="radio" th:field="*{vegetarizitaet}"
+              value="0" />
+          </label>
+          <label>
+            <input th:text="#{benutzer.vegetarizitaet.vegetarisch}" type="radio" th:field="*{vegetarizitaet}"
+              value="1" />
+          </label>
+          <label>
+            <input th:text="#{benutzer.vegetarizitaet.vegan}" type="radio" th:field="*{vegetarizitaet}" value="2" />
+          </label>
+        </td>
+      </tr>
+      <tr>
+        <td><label for="rolle" th:text="#{benutzer.rolle}">Rolle</label></td>
+        <td>
+          <select th:field="*{rolleAuswahl}">
+            <option th:each="role : *{rolle}" th:value="${role}"
+              th:text="#{${'benutzer.rolle.' + #strings.toLowerCase(role)}}"></option>
+          </select>
+        </td>
+      </tr>
+      <tr th:classappend="${#fields.hasErrors('losung')} ? 'fehler'">
+        <td>
+          <label for="losung" th:text="#{benutzer.losung}">Losung</label>
+        </td>
+        <td>
+          <input type="password" th:field="*{losung}" />
+          <div class="fehlermeldung" th:if="${#fields.hasErrors('losung')}" th:errors="*{losung}"></div>
+        </td>
+      </tr>
+      <tr th:classappend="${#fields.hasErrors('losungWdh')} ? 'fehler'">
+        <td>
+          <label for="losungWiderh" th:text="#{benutzer.losungwh}">Losung (Wiederh.)</label>
+        </td>
+        <td>
+          <input type="password" th:field="*{losungWdh}" />
+          <div class="fehlermeldung" th:if="${#fields.hasErrors('losungWdh')}" th:errors="*{losungWdh}"></div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button type="submit">OK</button>
+          <button type="reset">Cancel</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+  <div th:replace="~{fragments/kopffuss :: fuss}"></div>
+</body>
+
+</html>
